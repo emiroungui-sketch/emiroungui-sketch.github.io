@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enzo Michel Miroungui Brandner | Portfolio</title>
+  <meta name="description" content="Portfolio d'Enzo, étudiant en cycle prépa informatique à Hestim Casablanca.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="cssgithub.css">
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <canvas id="fire" aria-hidden="true"></canvas>
+
+  <header class="nav">
+    <a href="#accueil" class="logo">&lt;Enzo/&gt;</a>
+    <nav id="menu">
+      <a href="#apropos">À propos</a>
+      <a href="#competences">Compétences</a>
+      <a href="#projets">Projets</a>
+      <a href="#parcours">Parcours</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button id="theme" aria-label="Changer de thème">🔥</button>
+      <button id="burger" aria-label="Menu">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="accueil" class="hero">
+      <div class="hero-text reveal">
+        <p class="accent">Bonjour, je suis</p>
+        <h1>Enzo Michel<br>Miroungui Brandner</h1>
+        <h2><span id="typed"></span><span class="cursor">|</span></h2>
+        <p class="lead">Étudiant en 1<sup>re</sup> année de cycle prépa informatique à Hestim School, Casablanca. Je construis des projets pour apprendre, expérimenter et créer.</p>
+        <div class="cta">
+          <a href="#projets" class="btn primary">Voir mes projets</a>
+          <a href="#contact" class="btn">Me contacter</a>
+        </div>
+      </div>
+      <div class="hero-card reveal">
+        <div class="avatar">EB</div>
+        <p >📍 Casablanca, Maroc</p>
+        <p >🎓 Hestim School</p>
+      </div>
+    </section>
+
+    <section id="apropos" class="reveal">
+      <h2 class="title">À propos</h2>
+      <div class="grid two">
+        <p>Je suis passionné par l'informatique et le développement. Actuellement en prépa à Hestim, je consolide mes bases en algorithmique, programmation et mathématiques, tout en développant mes propres projets.
+        <br><br>
+        <!-- TODO : personnalise ce texte avec tes centres d'intérêt, tes objectifs (cycle ingénieur, spécialité visée...) -->
+        Mon objectif : devenir ingénieur en informatique et contribuer à des projets qui ont un vrai impact.</p>
+        <div class="stats">
+          <div><strong data-count="1">0</strong><span>Année de prépa</span></div>
+          <div><strong data-count="3">0</strong><span>Projets réalisés</span></div>
+          <div><strong data-count="5">0</strong><span>Technologies</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="competences" class="reveal">
+      <h2 class="title">Compétences</h2>
+      <div class="skills">
+        <div class="skill" data-level="85"><span>HTML / CSS</span><div class="bar"><i></i></div></div>
+        <div class="skill" data-level="70"><span>JavaScript</span><div class="bar"><i></i></div></div>
+        <div class="skill" data-level="65"><span>Python</span><div class="bar"><i></i></div></div>
+        <div class="skill" data-level="60"><span>C / Algorithmique</span><div class="bar"><i></i></div></div>
+        <div class="skill" data-level="55"><span>Git & GitHub</span><div class="bar"><i></i></div></div>
+      </div>
+    </section>
+
+    <section id="projets" class="reveal">
+      <h2 class="title">Projets</h2>
+      <div class="filters">
+        <button class="chip active" data-filter="all">Tous</button>
+        <button class="chip" data-filter="web">Web</button>
+        <button class="chip" data-filter="python">Python</button>
+      </div>
+      <div class="grid three" id="projects">
+        <article class="card" data-cat="web">
+          <h3>Mon portfolio</h3>
+          <p>Site personnel responsive avec mode sombre et animations, en HTML, CSS et JavaScript.</p>
+          <div class="tags"><span>HTML</span><span>CSS</span><span>JS</span></div>
+          <a href="#" class="link">Code</a>
+        </article>
+        <article class="card" data-cat="python">
+          <h3>Projet Python</h3>
+          <p>Décris ici un script ou une application (jeu, calculatrice, gestion de données...).</p>
+          <div class="tags"><span>Python</span></div>
+          <a href="#" class="link">Code</a>
+        </article>
+        <article class="card" data-cat="web">
+          <h3>Projet Web</h3>
+          <p>Décris ici un autre projet : application de tâches, mini-jeu, landing page...</p>
+          <div class="tags"><span>JS</span><span>CSS</span></div>
+          <a href="#" class="link">Démo</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="parcours" class="reveal">
+      <h2 class="title">Parcours</h2>
+      <div class="timeline">
+        <div class="item"><span class="accent">2025 - 2026</span><h3>Cycle prépa informatique, 1<sup>re</sup> année</h3><p>Hestim School, Casablanca. Algorithmique, programmation, mathématiques.</p></div>
+        <div class="item"><span class="accent">Avant</span><h3>Baccalauréat</h3><p>À compléter avec ton parcours (série, lycée, année).</p></div>
+      </div>
+    </section>
+
+    <section id="contact" class="reveal">
+      <h2 class="title">Contact</h2>
+      <div class="grid two">
+        <div>
+          <p>Une question, une opportunité de stage ou un projet ? Écris-moi, je réponds avec plaisir.</p>
+          <p class="links">
+            <a href="https://www.linkedin.com/in/enzo-michel-miroungui-brandner-a1556a442/" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+            <a href="mailto:ton.email@exemple.com">Email</a>
+          </p>
+        </div>
+        <form id="form" novalidate>
+          <input name="nom" placeholder="Votre nom" required>
+          <input name="email" type="email" placeholder="Votre email" required>
+          <textarea name="message" rows="4" placeholder="Votre message" required></textarea>
+          <button class="btn primary" type="submit">Envoyer</button>
+          <p id="status" ></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>© <span id="year"></span> Enzo Michel Miroungui Brandner. Fait avec ❤️ à Casablanca.</footer>
+  <button id="top" aria-label="Haut de page">↑</button>
+  <script src="script.js"></script>
+</body>
+</html>
