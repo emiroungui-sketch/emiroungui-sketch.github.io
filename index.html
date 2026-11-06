@@ -1,139 +1,188 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Enzo Michel Miroungui Brandner | Portfolio</title>
-  <meta name="description" content="Portfolio d'Enzo, étudiant en cycle prépa informatique à Hestim Casablanca.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enzo Michel Miroungui Brandner | Portfolio - HESTIM Casablanca</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="progress" id="progress"></div>
-  <canvas id="fire" aria-hidden="true"></canvas>
 
-  <header class="nav">
-    <a href="#accueil" class="logo">&lt;Enzo/&gt;</a>
-    <nav id="menu">
-      <a href="#apropos">À propos</a>
-      <a href="#competences">Compétences</a>
-      <a href="#projets">Projets</a>
-      <a href="#parcours">Parcours</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <div class="nav-actions">
-      <button id="theme" aria-label="Changer de thème">🔥</button>
-      <button id="burger" aria-label="Menu">☰</button>
-    </div>
-  </header>
+    <div id="floral-container" class="floral-container"></div>
 
-  <main>
-    <section id="accueil" class="hero">
-      <div class="hero-text reveal">
-        <p class="accent">Bonjour, je suis</p>
-        <h1>Enzo Michel<br>Miroungui Brandner</h1>
-        <h2><span id="typed"></span><span class="cursor">|</span></h2>
-        <p class="lead">Étudiant en 1<sup>re</sup> année de cycle prépa informatique à Hestim School, Casablanca. Je construis des projets pour apprendre, expérimenter et créer.</p>
-        <div class="cta">
-          <a href="#projets" class="btn primary">Voir mes projets</a>
-          <a href="#contact" class="btn">Me contacter</a>
+    <header>
+        <nav class="navbar">
+            <div class="logo"><span>EM</span>.dev</div>
+            <ul class="nav-links">
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#formation">Formation</a></li>
+                <li><a href="#skills">Compétences</a></li>
+                <li><a href="#projects">Projets</a></li>
+                <li><a href="#contact" class="btn-contact">Contact</a></li>
+            </ul>
+            <div class="burger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <span class="badge">1ère Année Prépa Info • HESTIM Casablanca</span>
+            <h1>Salut, je suis <span class="highlight">Enzo Michel</span></h1>
+            <p class="tagline">Étudiant en cycle préparatoire informatique à HESTIM Casablanca. Passionné par l'algorithmique et le développement web moderne.</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn primary">Voir mes projets</a>
+                <a href="https://www.linkedin.com/in/enzo-michel-miroungui-brandner-a1556a442/" target="_blank" class="btn secondary">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+            </div>
         </div>
-      </div>
-      <div class="hero-card reveal">
-        <div class="avatar">EB</div>
-        <p > Casablanca, Maroc</p>
-        <p > Hestim School</p>
-      </div>
-    </section>
 
-    <section id="apropos" class="reveal">
-      <h2 class="title">À propos</h2>
-      <div class="grid two">
-        <p>Je suis passionné par l'informatique et le développement. Actuellement en prépa à Hestim, je consolide mes bases en algorithmique, programmation et mathématiques, tout en développant mes propres projets.
-        <br><br>
-        <!-- TODO : personnalise ce texte avec tes centres d'intérêt, tes objectifs (cycle ingénieur, spécialité visée...) -->
-        Mon objectif : devenir ingénieur en informatique et contribuer à des projets qui ont un vrai impact.</p>
-        <div class="stats">
-          <div><strong data-count="1">0</strong><span>Année de prépa</span></div>
-          <div><strong data-count="3">0</strong><span>Projets réalisés</span></div>
-          <div><strong data-count="5">0</strong><span>Technologies</span></div>
+        <div class="hero-visual">
+            <div class="code-card">
+                <div class="card-header">
+                    <span class="dot red"></span>
+                    <span class="dot dark"></span>
+                    <span class="dot dark"></span>
+                    <span class="title">enzo.js</span>
+                </div>
+                <pre><code><span class="keyword">const</span> <span class="variable">enzo</span> = {
+    ecole: <span class="string">"HESTIM Casablanca"</span>,
+    cursus: <span class="string">"1ère année Prépa Informatique"</span>,
+    linkedin: <span class="string">"Enzo Michel Miroungui Brandner"</span>,
+    statut: <span class="string">"Prêt à coder ⚡"</span>
+};</code></pre>
+            </div>
         </div>
-      </div>
     </section>
 
-    <section id="competences" class="reveal">
-      <h2 class="title">Compétences</h2>
-      <div class="skills">
-        <div class="skill" data-level="85"><span>HTML / CSS</span><div class="bar"><i></i></div></div>
-        <div class="skill" data-level="70"><span>JavaScript</span><div class="bar"><i></i></div></div>
-        <div class="skill" data-level="65"><span>Python</span><div class="bar"><i></i></div></div>
-        <div class="skill" data-level="60"><span>C / Algorithmique</span><div class="bar"><i></i></div></div>
-        <div class="skill" data-level="55"><span>Git & GitHub</span><div class="bar"><i></i></div></div>
-      </div>
-    </section>
-
-    <section id="projets" class="reveal">
-      <h2 class="title">Projets</h2>
-      <div class="filters">
-        <button class="chip active" data-filter="all">Tous</button>
-        <button class="chip" data-filter="web">Web</button>
-        <button class="chip" data-filter="python">Python</button>
-      </div>
-      <div class="grid three" id="projects">
-        <article class="card" data-cat="web">
-          <h3>Mon portfolio</h3>
-          <p>Site personnel responsive avec mode sombre et animations, en HTML, CSS et JavaScript.</p>
-          <div class="tags"><span>HTML</span><span>CSS</span><span>JS</span></div>
-          <a href="#" class="link">Code</a>
-        </article>
-        <article class="card" data-cat="python">
-          <h3>Projet Python</h3>
-          <p>Décris ici un script ou une application (jeu, calculatrice, gestion de données...).</p>
-          <div class="tags"><span>Python</span></div>
-          <a href="#" class="link">Code</a>
-        </article>
-        <article class="card" data-cat="web">
-          <h3>Projet Web</h3>
-          <p>Décris ici un autre projet : application de tâches, mini-jeu, landing page...</p>
-          <div class="tags"><span>JS</span><span>CSS</span></div>
-          <a href="#" class="link">Démo</a>
-        </article>
-      </div>
-    </section>
-
-    <section id="parcours" class="reveal">
-      <h2 class="title">Parcours</h2>
-      <div class="timeline">
-        <div class="item"><span class="accent">2025 - 2026</span><h3>Cycle prépa informatique, 1<sup>re</sup> année</h3><p>Hestim School, Casablanca. Algorithmique, programmation, mathématiques.</p></div>
-        <div class="item"><span class="accent">Avant</span><h3>Baccalauréat</h3><p>À compléter avec ton parcours (série, lycée, année).</p></div>
-      </div>
-    </section>
-
-    <section id="contact" class="reveal">
-      <h2 class="title">Contact</h2>
-      <div class="grid two">
-        <div>
-          <p>Une question, une opportunité de stage ou un projet ? Écris-moi, je réponds avec plaisir.</p>
-          <p class="links">
-            <a href="https://www.linkedin.com/in/enzo-michel-miroungui-brandner-a1556a442/" target="_blank" rel="noopener">LinkedIn</a>
-            <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
-            <a href="mailto:ton.email@exemple.com">Email</a>
-          </p>
+    <section id="about" class="section">
+        <h2 class="section-title">À <span>propos</span> de moi</h2>
+        <div class="about-container">
+            <div class="about-text">
+                <p>Actuellement en première année du cycle préparatoire informatique à l'école <strong>HESTIM</strong> à Casablanca, je me passionne pour la résolution de problèmes algorithmiques, la logique de programmation et la conception d'interfaces élégantes.</p>
+                <p>Curieux et rigoureux, je combine la rigueur scientifique de ma prépa avec une sensibilité créative pour donner vie à des projets uniques.</p>
+            </div>
+            <div class="about-stats">
+                <div class="stat-box">
+                    <h3>HESTIM</h3>
+                    <p>Casablanca, Maroc</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Prépa Info</h3>
+                    <p>1ère Année</p>
+                </div>
+            </div>
         </div>
-        <form id="form" novalidate>
-          <input name="nom" placeholder="Votre nom" required>
-          <input name="email" type="email" placeholder="Votre email" required>
-          <textarea name="message" rows="4" placeholder="Votre message" required></textarea>
-          <button class="btn primary" type="submit">Envoyer</button>
-          <p id="status" ></p>
-        </form>
-      </div>
     </section>
-  </main>
 
-  <footer>© <span id="year"></span> Enzo Michel Miroungui Brandner. Fait avec  à Casablanca.</footer>
-  <button id="top" aria-label="Haut de page">↑</button>
-  <script src="script.js"></script>
+    <section id="formation" class="section bg-alt">
+        <h2 class="section-title">Mon <span>Parcours</span></h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">En cours</div>
+                <div class="timeline-content">
+                    <h3>1ère Année - Cycle Préparatoire Informatique</h3>
+                    <h4>HESTIM (Haute École des Sciences et Techniques d'Ingénierie de Management) - Casablanca</h4>
+                    <p>Apprentissage des bases fondamentales de l'informatique, mathématiques pour l'ingénieur, algorithmique et structures de données.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section">
+        <h2 class="section-title">Mes <span>Compétences</span></h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3><i class="fas fa-code"></i> Langages & Web</h3>
+                <ul>
+                    <li>HTML5 / CSS3 / JavaScript</li>
+                    <li>C / C++ (Algorithmique)</li>
+                    <li>Python (Bases)</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3><i class="fas fa-tools"></i> Outils & Système</h3>
+                <ul>
+                    <li>Git & GitHub</li>
+                    <li>VS Code</li>
+                    <li>Terminal Linux / Windows</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3><i class="fas fa-brain"></i> Soft Skills</h3>
+                <ul>
+                    <li>Résolution de problèmes</li>
+                    <li>Esprit d'équipe</li>
+                    <li>Curiosité technique</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section bg-alt">
+        <h2 class="section-title">Mes <span>Projets</span> Récents</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-header">
+                    <i class="fas fa-folder-open"></i>
+                    <div class="project-links">
+                        <a href="https://www.linkedin.com/in/enzo-michel-miroungui-brandner-a1556a442/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <h3>Portfolio Immersif</h3>
+                <p>Site web personnel interactif intégrant une esthétique sombre et technologique avec une pluie de gouttes en arrière-plan.</p>
+                <div class="project-tags">
+                    <span>HTML5</span>
+                    <span>CSS3</span>
+                    <span>JavaScript</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <i class="fas fa-terminal"></i>
+                    <div class="project-links">
+                        <a href="https://www.linkedin.com/in/enzo-michel-miroungui-brandner-a1556a442/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <h3>Projets d'Algorithmique</h3>
+                <p>Implémentation de structures de données et résolution de programmes logiques dans le cadre de ma formation à HESTIM.</p>
+                <div class="project-tags">
+                    <span>C / C++</span>
+                    <span>Algorithmique</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <h2 class="section-title">Me <span>Contacter</span></h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <p><i class="fas fa-envelope"></i> enzo.michel@hestim.ma</p>
+                <p><i class="fas fa-map-marker-alt"></i> Casablanca, Maroc - HESTIM</p>
+                <p><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/enzo-michel-miroungui-brandner-a1556a442/" target="_blank">Profil LinkedIn officiel</a></p>
+            </div>
+
+            <form class="contact-form" id="contactForm">
+                <input type="text" placeholder="Votre Nom" required>
+                <input type="email" placeholder="Votre Email" required>
+                <textarea placeholder="Votre Message" rows="5" required></textarea>
+                <button type="submit" class="btn primary">Envoyer le message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; <span id="year"></span> - Enzo Michel Miroungui Brandner • HESTIM Casablanca. Tous droits réservés.</p>
+    </footer>
+
+    <script src="scipt.js"></script>
 </body>
 </html>
