@@ -20,13 +20,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Disposition aléatoire des cartes au refresh
     const cards = document.querySelectorAll('.paper-card');
-    const positions = [
-        { top: 50, left: 6 },
-        { top: 30, right: 8 },
-        { top: 420, left: 5 },
-        { top: 450, right: 10 },
-        { top: 790, left: 25 }
-    ];
+    const isMobile = window.innerWidth <= 900;
+    const positions = isMobile
+        ? [ // mobile : cartes en quinconce
+            { top: 10, left: 3 },
+            { top: 240, left: 22 },
+            { top: 470, left: 5 },
+            { top: 700, left: 24 },
+            { top: 930, left: 10 }
+        ]
+        : [ // PC
+            { top: 50, left: 6 },
+            { top: 30, right: 8 },
+            { top: 420, left: 5 },
+            { top: 450, right: 10 },
+            { top: 790, left: 25 }
+        ];
 
     cards.forEach((card, index) => {
         const pos = positions[index];
@@ -169,40 +178,80 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // 5. Glisser-déposer des cartes
+    // Souris : glisser directement. Tactile : double tap sur la carte pour l'activer, puis glisser.
     let topZIndex = 10;
+    const DOUBLE_TAP_DELAY = 350;
+
+    // Un doigt posé en dehors d'une carte désactive le mode déplacement
+    document.addEventListener('pointerdown', (e) => {
+        if (e.pointerType !== 'touch') return;
+        cards.forEach(c => {
+            if (!c.contains(e.target)) c.classList.remove('movable');
+        });
+    });
 
     cards.forEach(card => {
         let isDragging = false;
         let startX, startY, initialX, initialY;
+        let lastTap = 0;
+        let tapCandidate = false;
+        let tapX, tapY;
 
-        card.addEventListener('mousedown', (e) => {
+        card.addEventListener('pointerdown', (e) => {
             if (card.classList.contains('expanded')) return;
-            if (e.target.closest('input, textarea, button')) return; // ne pas bloquer les champs du formulaire
+            if (e.target.closest('input, textarea, button')) return;
+
+            if (e.pointerType === 'touch') {
+                tapCandidate = true;
+                tapX = e.clientX;
+                tapY = e.clientY;
+                if (!card.classList.contains('movable')) return; // pas de drag sans double tap
+            }
 
             isDragging = true;
             topZIndex++;
             card.style.zIndex = topZIndex;
+            card.setPointerCapture(e.pointerId);
 
             startX = e.clientX;
             startY = e.clientY;
-
             const rect = card.getBoundingClientRect();
             const parentRect = card.parentElement.getBoundingClientRect();
             initialX = rect.left - parentRect.left;
             initialY = rect.top - parentRect.top;
-
             card.style.cursor = 'grabbing';
         });
 
-        window.addEventListener('mousemove', (e) => {
+        card.addEventListener('pointermove', (e) => {
             if (!isDragging) return;
             card.style.left = `${initialX + e.clientX - startX}px`;
             card.style.top = `${initialY + e.clientY - startY}px`;
             card.style.right = 'auto';
         });
 
-        window.addEventListener('mouseup', () => {
-            if (!isDragging) return;
+        card.addEventListener('pointerup', (e) => {
+            // Double tap (tactile uniquement, sans mouvement du doigt)
+            if (e.pointerType === 'touch' && tapCandidate &&
+                Math.hypot(e.clientX - tapX, e.clientY - tapY) < 10) {
+                const now = Date.now();
+                if (now - lastTap < DOUBLE_TAP_DELAY) {
+                    card.classList.toggle('movable');
+                    if (card.classList.contains('movable')) {
+                        topZIndex++;
+                        card.style.zIndex = topZIndex;
+                    }
+                    lastTap = 0;
+                } else {
+                    lastTap = now;
+                }
+            }
+            tapCandidate = false;
+            isDragging = false;
+            card.style.cursor = '';
+        });
+
+        card.addEventListener('pointercancel', () => {
+            tapCandidate = false;
             isDragging = false;
             card.style.cursor = '';
         });
