@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const randomRotate = (Math.random() * 8 - 4).toFixed(1);
 
         card.style.transform = `rotate(${randomRotate}deg)`;
+        card.dataset.rot = randomRotate;
         card.style.top = `${pos.top}px`;
 
         if (pos.left !== undefined) {
@@ -52,6 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const variation = Math.floor(Math.random() * 60) - 30;
             card.style.right = `${pos.right + variation / 10}vw`;
         }
+    });
+
+
+    // Plateformes : placement initial (top en px, left en vw)
+    const platforms = document.querySelectorAll('.platform');
+    const platSpots = isMobile
+        ? [{ top: 1100, left: 8 }, { top: 980, left: 45 }, { top: 860, left: 12 }, { top: 740, left: 55 }, { top: 1040, left: 62 }, { top: 620, left: 20 }]
+        : [{ top: 1090, left: 12 }, { top: 960, left: 28 }, { top: 1060, left: 46 }, { top: 900, left: 60 }, { top: 1000, left: 76 }, { top: 700, left: 38 }];
+    platforms.forEach((p, i) => {
+        p.style.top = `${platSpots[i % platSpots.length].top}px`;
+        p.style.left = `${platSpots[i % platSpots.length].left}vw`;
     });
 
 
@@ -80,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.stopPropagation();
             const targetCard = document.getElementById(btn.getAttribute('data-target'));
             if (targetCard) toggleCard(targetCard);
+            if (btn.dataset.target === 'card-contact') countContactClick(); // easter egg
         });
     });
 
@@ -177,36 +190,16 @@ document.addEventListener('DOMContentLoaded', () => {
     drawBackground();
 
 
-    // 5. Glisser-déposer des cartes
-    // Souris : glisser directement. Tactile : double tap sur la carte pour l'activer, puis glisser.
+    // 5. Glisser-déposer des cartes (souris et doigt, directement)
     let topZIndex = 10;
-    const DOUBLE_TAP_DELAY = 350;
 
-    // Un doigt posé en dehors d'une carte désactive le mode déplacement
-    document.addEventListener('pointerdown', (e) => {
-        if (e.pointerType !== 'touch') return;
-        cards.forEach(c => {
-            if (!c.contains(e.target)) c.classList.remove('movable');
-        });
-    });
-
-    cards.forEach(card => {
+    [...cards, ...platforms].forEach(card => {
         let isDragging = false;
         let startX, startY, initialX, initialY;
-        let lastTap = 0;
-        let tapCandidate = false;
-        let tapX, tapY;
 
         card.addEventListener('pointerdown', (e) => {
             if (card.classList.contains('expanded')) return;
-            if (e.target.closest('input, textarea, button')) return;
-
-            if (e.pointerType === 'touch') {
-                tapCandidate = true;
-                tapX = e.clientX;
-                tapY = e.clientY;
-                if (!card.classList.contains('movable')) return; // pas de drag sans double tap
-            }
+            if (e.target.closest('input, textarea, button, a')) return;
 
             isDragging = true;
             topZIndex++;
@@ -229,32 +222,12 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.right = 'auto';
         });
 
-        card.addEventListener('pointerup', (e) => {
-            // Double tap (tactile uniquement, sans mouvement du doigt)
-            if (e.pointerType === 'touch' && tapCandidate &&
-                Math.hypot(e.clientX - tapX, e.clientY - tapY) < 10) {
-                const now = Date.now();
-                if (now - lastTap < DOUBLE_TAP_DELAY) {
-                    card.classList.toggle('movable');
-                    if (card.classList.contains('movable')) {
-                        topZIndex++;
-                        card.style.zIndex = topZIndex;
-                    }
-                    lastTap = 0;
-                } else {
-                    lastTap = now;
-                }
-            }
-            tapCandidate = false;
+        const stopDrag = () => {
             isDragging = false;
             card.style.cursor = '';
-        });
-
-        card.addEventListener('pointercancel', () => {
-            tapCandidate = false;
-            isDragging = false;
-            card.style.cursor = '';
-        });
+        };
+        card.addEventListener('pointerup', stopDrag);
+        card.addEventListener('pointercancel', stopDrag);
     });
 
 
@@ -272,4 +245,177 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 4000);
         });
     }
+
+
+    // 7. Petit personnage : gravité, inertie, double saut, collisions avec les cartes
+    const hero = document.getElementById('hero');
+    const HW = 26, HH = 34;
+    const GRAVITY = 0.55, JUMP = -13.5, ACCEL = 0.9, MAX_VX = 6;
+    const input = { left: false, right: false };
+    const hs = { x: 40, y: 0, vx: 0, vy: 0, onGround: false, face: 1, jumps: 2 };
+    // Le sol = la ligne du footer (mesurée sur la page, indépendante du personnage)
+    const footerEl = document.querySelector('footer');
+    const floorY = () => footerEl.offsetTop;
+    hs.y = floorY() - HH;
+
+    function jump() {
+        if (!hs.onGround && hs.jumps === 2) hs.jumps = 1; // tombé d'un rebord : un seul saut en l'air
+        if (hs.jumps > 0) {
+            hs.vy = JUMP;
+            hs.jumps--;
+        }
+    }
+
+    // Clavier (flèches, ZQSD, WASD, espace)
+    const LEFT = ['arrowleft', 'q', 'a'], RIGHT = ['arrowright', 'd'], UP = ['arrowup', 'z', 'w', ' '];
+    window.addEventListener('keydown', (e) => {
+        if (!document.body.classList.contains('game-on')) return; // jeu verrouillé : les touches gardent leur rôle normal
+        if (e.target.closest('input, textarea')) return;
+        const k = e.key.toLowerCase();
+        if (LEFT.includes(k)) input.left = true;
+        else if (RIGHT.includes(k)) input.right = true;
+        else if (UP.includes(k)) { if (!e.repeat) jump(); }
+        else return;
+        e.preventDefault();
+    });
+    window.addEventListener('keyup', (e) => {
+        const k = e.key.toLowerCase();
+        if (LEFT.includes(k)) input.left = false;
+        if (RIGHT.includes(k)) input.right = false;
+    });
+
+    // Boutons tactiles
+    document.querySelectorAll('#pad button').forEach(btn => {
+        const key = btn.dataset.key;
+        const release = () => {
+            btn.classList.remove('pressed');
+            if (key !== 'jump') input[key] = false;
+        };
+        btn.addEventListener('pointerdown', (e) => {
+            e.preventDefault();
+            btn.classList.add('pressed');
+            if (key === 'jump') jump();
+            else input[key] = true;
+        });
+        ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => btn.addEventListener(ev, release));
+        btn.addEventListener('contextmenu', (e) => e.preventDefault());
+    });
+
+    // Rectangles solides (cartes inclinées + plateformes), en coordonnées du document
+    function getBoxes() {
+        const sx = window.scrollX, sy = window.scrollY;
+        return [...cards, ...platforms]
+            .filter(c => !c.classList.contains('expanded'))
+            .map(c => {
+                const r = c.getBoundingClientRect();
+                return {
+                    cx: r.left + r.width / 2 + sx,
+                    cy: r.top + r.height / 2 + sy,
+                    hw: c.offsetWidth / 2,
+                    hh: c.offsetHeight / 2,
+                    a: (parseFloat(c.dataset.rot) || 0) * Math.PI / 180
+                };
+            });
+    }
+
+    // Collision rectangle (personnage) / rectangle incliné (carte) : théorème de l'axe séparateur
+    function penetration(b) {
+        const co = Math.cos(b.a), si = Math.sin(b.a);
+        const dx = hs.x + HW / 2 - b.cx, dy = hs.y + HH / 2 - b.cy;
+        let best = null;
+        for (const [ax, ay] of [[1, 0], [0, 1], [co, si], [-si, co]]) {
+            const rh = (HW / 2) * Math.abs(ax) + (HH / 2) * Math.abs(ay);
+            const rc = b.hw * Math.abs(co * ax + si * ay) + b.hh * Math.abs(-si * ax + co * ay);
+            const d = dx * ax + dy * ay;
+            const pen = rh + rc - Math.abs(d);
+            if (pen <= 0) return null;
+            if (!best || pen < best.pen) best = { pen, nx: d >= 0 ? ax : -ax, ny: d >= 0 ? ay : -ay };
+        }
+        return best;
+    }
+
+    function resolveBox(b) {
+        const m = penetration(b);
+        if (!m) return;
+        if (Math.abs(m.ny) > 0.7) {            // dessus ou dessous : poussée purement verticale
+            hs.y += m.pen / m.ny;
+            if (m.ny < 0) { hs.onGround = true; if (hs.vy > 0) hs.vy = 0; }
+            else if (hs.vy < 0) hs.vy = 0;
+        } else {                               // côté : poussée purement horizontale
+            hs.x += m.pen / m.nx;
+            if (m.nx * hs.vx < 0) hs.vx = 0;
+        }
+    }
+
+    // Easter egg : 5 clics (espacés de 3 s maximum) sur « Contact » débloquent le mini-jeu
+    let contactClicks = 0, contactTimer;
+    const toast = document.getElementById('gameToast');
+
+    function countContactClick() {
+        if (document.body.classList.contains('game-on')) return;
+        contactClicks++;
+        clearTimeout(contactTimer);
+        contactTimer = setTimeout(() => { contactClicks = 0; }, 3000);
+        if (contactClicks >= 5) {
+            contactClicks = 0;
+            unlockGame();
+        }
+    }
+
+    function unlockGame() {
+        closeAllExpanded();
+        document.body.classList.add('game-on');
+        hs.x = 40; hs.y = floorY() - HH; hs.vx = 0; hs.vy = 0; hs.jumps = 2;
+        const touch = window.matchMedia('(pointer: coarse)').matches;
+        toast.textContent = touch
+            ? 'MINI-JEU DÉBLOQUÉ — boutons ◀ ▶ ▲ en bas de l\'écran'
+            : 'MINI-JEU DÉBLOQUÉ — flèches ou ZQSD pour bouger, ↑ / Espace pour sauter';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 5000);
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+    }
+
+    let lastTime = performance.now();
+    function heroLoop(now) {
+        if (!document.body.classList.contains('game-on')) { lastTime = now; requestAnimationFrame(heroLoop); return; }
+        const dt = Math.min((now - lastTime) / 16.67, 1.5);
+        lastTime = now;
+
+        const dir = (input.right ? 1 : 0) - (input.left ? 1 : 0);
+        if (dir) hs.face = dir;
+        hs.vx += dir * ACCEL * dt;
+        hs.vx *= Math.pow(dir ? 0.9 : 0.8, dt);
+        hs.vx = Math.max(-MAX_VX, Math.min(MAX_VX, hs.vx));
+        hs.vy = Math.min(hs.vy + GRAVITY * dt, 14);
+
+        const boxes = getBoxes();
+        const maxX = document.documentElement.clientWidth - HW;
+        const ground = floorY();
+
+        hs.x += hs.vx * dt;
+        hs.y += hs.vy * dt;
+        hs.onGround = false;
+        for (let i = 0; i < 3; i++) boxes.forEach(resolveBox);
+        hs.x = Math.max(0, Math.min(maxX, hs.x));
+
+        if (!isFinite(hs.x) || !isFinite(hs.y)) { hs.x = 40; hs.y = ground - HH; hs.vx = hs.vy = 0; }
+        if (hs.y + HH >= ground) { hs.y = ground - HH; hs.vy = 0; hs.onGround = true; }
+        if (hs.y < 0) { hs.y = 0; hs.vy = 0; }
+        if (hs.onGround) hs.jumps = 2;
+
+        // Affichage
+        hero.style.transform = `translate(${hs.x}px, ${hs.y}px) scaleX(${hs.face})`;
+        hero.classList.toggle('walk', hs.onGround && Math.abs(hs.vx) > 0.6);
+
+        // Caméra : suit le personnage quand il bouge près du bord de l'écran
+        const top = window.scrollY, vh = window.innerHeight;
+        const moving = dir || !hs.onGround || Math.abs(hs.vx) > 0.5;
+        if (moving && !overlay.classList.contains('active') &&
+            (hs.y < top + 90 || hs.y + HH > top + vh - 90)) {
+            window.scrollTo(0, top + (hs.y - vh / 2 - top) * 0.08);
+        }
+
+        requestAnimationFrame(heroLoop);
+    }
+    requestAnimationFrame(heroLoop);
 });
