@@ -120,11 +120,19 @@ body {
     padding: 24px;
     cursor: grab;
     user-select: none;
+    touch-action: manipulation; /* scroll normal sur mobile tant que la carte n'est pas activée */
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease, width 0.4s ease, height 0.4s ease;
 }
 
 .paper-card:active {
     cursor: grabbing;
+}
+
+/* Mobile : carte activée par double tap -> le doigt la déplace */
+.paper-card.movable:not(.expanded) {
+    touch-action: none;
+    outline: 3px dashed var(--paper-accent);
+    outline-offset: 5px;
 }
 
 .paper-card:hover {
@@ -441,7 +449,7 @@ footer {
     z-index: 5;
 }
 
-/* ---------- Mobile ---------- */
+/* ---------- Mobile : les cartes restent posées sur la table ---------- */
 @media (max-width: 900px) {
     .top-nav {
         padding: 0 12px;
@@ -459,31 +467,19 @@ footer {
         font-size: 0.65rem;
     }
     .table-workspace {
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
-        padding: 15px;
-        margin-top: 90px;
+        height: 1300px;
     }
     .paper-card {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        right: auto !important;
-        width: 100% !important;
-        transform: none !important;
+        width: 72vw !important;
+        max-width: 340px;
     }
     .paper-card.expanded {
-        position: fixed !important;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
         width: 92% !important;
+        max-width: 650px !important;
     }
     footer {
-        position: relative;
-        margin-top: 40px;
+        position: absolute;
+        bottom: 20px;
     }
 }
 
