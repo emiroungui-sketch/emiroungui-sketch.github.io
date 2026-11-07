@@ -39,7 +39,7 @@ body {
 
 .nav-logo {
     font-family: 'Anton', sans-serif;
-    font-size: 1.2rem;
+    font-size: 1rem;
     letter-spacing: 1px;
     color: var(--paper-white);
 }
@@ -120,19 +120,12 @@ body {
     padding: 24px;
     cursor: grab;
     user-select: none;
-    touch-action: manipulation; /* scroll normal sur mobile tant que la carte n'est pas activée */
+    touch-action: none; /* le doigt déplace directement la carte */
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease, width 0.4s ease, height 0.4s ease;
 }
 
 .paper-card:active {
     cursor: grabbing;
-}
-
-/* Mobile : carte activée par double tap -> le doigt la déplace */
-.paper-card.movable:not(.expanded) {
-    touch-action: none;
-    outline: 3px dashed var(--paper-accent);
-    outline-offset: 5px;
 }
 
 .paper-card:hover {
@@ -244,9 +237,9 @@ body {
 
 .id-details h2 {
     font-family: 'Anton', sans-serif;
-    font-size: 1.7rem;
+    font-size: 1.25rem;
     letter-spacing: 1px;
-    line-height: 1;
+    line-height: 1.05;
 }
 
 .id-details .role {
@@ -344,7 +337,7 @@ body {
 .sign {
     margin-top: 12px;
     font-family: 'Anton', sans-serif;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     color: var(--paper-accent);
     text-align: right;
 }
@@ -443,10 +436,176 @@ footer {
     position: absolute;
     bottom: 20px;
     width: 100%;
+    padding-top: 10px;
+    border-top: 2px solid var(--paper-white); /* = le sol du personnage */
     font-size: 0.6rem;
     letter-spacing: 3px;
     opacity: 0.4;
     z-index: 5;
+}
+
+/* ---------- Identité / téléphone ---------- */
+.id-details .fullname {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.05rem;
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
+
+.phone, .phone-line {
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-top: 4px;
+}
+
+.phone-line {
+    text-align: center;
+    margin: 0 0 10px;
+}
+
+.phone a, .phone-line a {
+    color: var(--ink);
+}
+
+/* ---------- Petites plateformes (déplaçables, solides pour le personnage) ---------- */
+.platform {
+    display: none; /* caché tant que le mini-jeu n'est pas débloqué */
+    position: absolute;
+    z-index: 6;
+    padding: 6px 12px;
+    background: var(--paper-accent);
+    color: #fff;
+    border: 2px solid #fff;
+    box-shadow: 4px 4px 0 #000;
+    font-size: 0.75rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    white-space: nowrap;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+}
+
+.platform:active {
+    cursor: grabbing;
+}
+
+/* ---------- Petit personnage ---------- */
+.hero {
+    display: none; /* caché tant que le mini-jeu n'est pas débloqué */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 26px;
+    height: 34px;
+    z-index: 900;
+    pointer-events: none;
+    will-change: transform;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    border: 2px solid var(--paper-white);
+    border-radius: 9px 9px 3px 3px;
+    box-shadow: 3px 3px 0 var(--paper-accent);
+}
+
+.hero i {
+    position: absolute;
+    top: 9px;
+    right: 3px;
+    width: 13px;
+    height: 7px;
+    background: var(--paper-accent);
+}
+
+.hero.walk::before, .hero.walk i {
+    animation: hero-bob 0.25s infinite;
+}
+
+@keyframes hero-bob {
+    50% { transform: translateY(-2px); }
+}
+
+/* ---------- Commandes tactiles ---------- */
+.pad {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 14px;
+    padding: 0 16px;
+    justify-content: space-between;
+    z-index: 2000;
+    pointer-events: none;
+}
+
+.pad-move {
+    display: flex;
+    gap: 10px;
+}
+
+.pad button {
+    pointer-events: auto;
+    width: 58px;
+    height: 58px;
+    background: var(--ink);
+    color: var(--paper-white);
+    border: 2px solid var(--paper-white);
+    font-size: 1.2rem;
+    box-shadow: 4px 4px 0 var(--paper-accent);
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.pad button.pressed {
+    background: var(--paper-accent);
+}
+
+.hint {
+    display: none;
+}
+
+/* Mini-jeu débloqué (5 clics sur Contact) */
+body.game-on .hero,
+body.game-on .platform,
+body.game-on .hint {
+    display: block;
+}
+
+@media (pointer: coarse), (max-width: 900px) {
+    body.game-on .pad { display: flex; }
+    body.game-on .hint { display: none; }
+}
+
+.toast {
+    position: fixed;
+    top: 76px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 90vw;
+    padding: 10px 16px;
+    background: var(--ink);
+    color: var(--paper-white);
+    border: 2px solid var(--paper-white);
+    box-shadow: 5px 5px 0 var(--paper-accent);
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 1px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 3900;
+}
+
+.toast.show {
+    opacity: 1;
 }
 
 /* ---------- Mobile : les cartes restent posées sur la table ---------- */
@@ -479,7 +638,7 @@ footer {
     }
     footer {
         position: absolute;
-        bottom: 20px;
+        bottom: 90px; /* laisse la place aux boutons tactiles */
     }
 }
 
