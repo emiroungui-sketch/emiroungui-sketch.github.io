@@ -3,186 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enzo Michel Miroungui Brandner | Portfolio - HESTIM Casablanca</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Enzo — Hestim Cyber Security</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Special+Elite&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="floral-container" class="floral-container"></div>
-
-    <header>
-        <nav class="navbar">
-            <div class="logo"><span>EM</span>.dev</div>
-            <ul class="nav-links">
-                <li><a href="#about">À propos</a></li>
-                <li><a href="#formation">Formation</a></li>
-                <li><a href="#skills">Compétences</a></li>
-                <li><a href="#projects">Projets</a></li>
-                <li><a href="#contact" class="btn-contact">Contact</a></li>
-            </ul>
-            <div class="burger">
-                <i class="fas fa-bars"></i>
-            </div>
-        </nav>
+    <!-- Barre de navigation fixe en haut -->
+    <header class="top-nav">
+        <div class="nav-logo">ENZO // HESTIM</div>
+        <div class="nav-buttons">
+            <button class="nav-btn" data-target="card-id">ID Badge</button>
+            <button class="nav-btn" data-target="card-edu">Cursus</button>
+            <button class="nav-btn" data-target="card-about">À Propos</button>
+            <button class="nav-btn" data-target="card-skills">Skills</button>
+            <button class="nav-btn" data-target="card-contact">Contact</button>
+        </div>
     </header>
 
-    <section id="hero" class="hero">
-        <div class="hero-content">
-            <span class="badge">1ère Année Prépa Info • HESTIM Casablanca</span>
-            <h1>Salut, je suis <span class="highlight">Enzo Michel</span></h1>
-            <p class="tagline">Étudiant en cycle préparatoire informatique à HESTIM Casablanca. Passionné par l'algorithmique et le développement web moderne.</p>
-            <div class="hero-buttons">
-                <a href="#projects" class="btn primary">Voir mes projets</a>
-                <a href="https://www.linkedin.com/in/enzo-michel-miroungui-brandner-a1556a442/" target="_blank" class="btn secondary">
-                    <i class="fab fa-linkedin"></i> LinkedIn
-                </a>
-            </div>
-        </div>
+    <!-- Overlay sombre + flou d'arrière-plan -->
+    <div class="overlay" id="pageOverlay"></div>
 
-        <div class="hero-visual">
-            <div class="code-card">
-                <div class="card-header">
-                    <span class="dot red"></span>
-                    <span class="dot dark"></span>
-                    <span class="dot dark"></span>
-                    <span class="title">enzo.js</span>
-                </div>
-                <pre><code><span class="keyword">const</span> <span class="variable">enzo</span> = {
-    ecole: <span class="string">"HESTIM Casablanca"</span>,
-    cursus: <span class="string">"1ère année Prépa Informatique"</span>,
-    linkedin: <span class="string">"Enzo Michel Miroungui Brandner"</span>,
-    statut: <span class="string">"Prêt à coder ⚡"</span>
-};</code></pre>
-            </div>
-        </div>
-    </section>
+    <!-- Animation des vagues PS3 et des étoiles filantes -->
+    <canvas id="ps3Canvas"></canvas>
 
-    <section id="about" class="section">
-        <h2 class="section-title">À <span>propos</span> de moi</h2>
-        <div class="about-container">
-            <div class="about-text">
-                <p>Actuellement en première année du cycle préparatoire informatique à l'école <strong>HESTIM</strong> à Casablanca, je me passionne pour la résolution de problèmes algorithmiques, la logique de programmation et la conception d'interfaces élégantes.</p>
-                <p>Curieux et rigoureux, je combine la rigueur scientifique de ma prépa avec une sensibilité créative pour donner vie à des projets uniques.</p>
-            </div>
-            <div class="about-stats">
-                <div class="stat-box">
-                    <h3>HESTIM</h3>
-                    <p>Casablanca, Maroc</p>
-                </div>
-                <div class="stat-box">
-                    <h3>Prépa Info</h3>
-                    <p>1ère Année</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Filtre de grain global -->
+    <div class="paper-grain"></div>
 
-    <section id="formation" class="section bg-alt">
-        <h2 class="section-title">Mon <span>Parcours</span></h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-date">En cours</div>
-                <div class="timeline-content">
-                    <h3>1ère Année - Cycle Préparatoire Informatique</h3>
-                    <h4>HESTIM (Haute École des Sciences et Techniques d'Ingénierie de Management) - Casablanca</h4>
-                    <p>Apprentissage des bases fondamentales de l'informatique, mathématiques pour l'ingénieur, algorithmique et structures de données.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <main class="table-workspace">
 
-    <section id="skills" class="section">
-        <h2 class="section-title">Mes <span>Compétences</span></h2>
-        <div class="skills-grid">
-            <div class="skill-category">
-                <h3><i class="fas fa-code"></i> Langages & Web</h3>
-                <ul>
-                    <li>HTML5 / CSS3 / JavaScript</li>
-                    <li>C / C++ (Algorithmique)</li>
-                    <li>Python (Bases)</li>
-                </ul>
+        <!-- Carte 1 : ID Badge -->
+        <div class="paper-card id-card draggable" id="card-id">
+            <div class="card-controls">
+                <span class="stamp-tag">HESTIM // SEC_ID</span>
+                <button class="expand-toggle" aria-label="Agrandir la carte">🔍</button>
             </div>
-            <div class="skill-category">
-                <h3><i class="fas fa-tools"></i> Outils & Système</h3>
-                <ul>
-                    <li>Git & GitHub</li>
-                    <li>VS Code</li>
-                    <li>Terminal Linux / Windows</li>
-                </ul>
-            </div>
-            <div class="skill-category">
-                <h3><i class="fas fa-brain"></i> Soft Skills</h3>
-                <ul>
-                    <li>Résolution de problèmes</li>
-                    <li>Esprit d'équipe</li>
-                    <li>Curiosité technique</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="section bg-alt">
-        <h2 class="section-title">Mes <span>Projets</span> Récents</h2>
-        <div class="projects-grid">
-            <div class="project-card">
-                <div class="project-header">
-                    <i class="fas fa-folder-open"></i>
-                    <div class="project-links">
-                        <a href="https://www.linkedin.com/in/enzo-michel-miroungui-brandner-a1556a442/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <div class="id-inner">
+                <img src="photo.jpg" alt="Enzo" class="halftone-avatar">
+                <div class="id-details">
+                    <h2>ENZO</h2>
+                    <p class="role">CYBERSECURITY</p>
+                    <p class="sub">1ÈRE ANNÉE</p>
+                    <div class="fake-barcode">||| |||| | || |||</div>
+                    <div class="long-text">
+                        <hr style="margin: 10px 0; border-color: currentColor;">
+                        <p>Étudiant passionné par la sécurité des réseaux, l'investigation numérique et le durcissement des systèmes d'exploitation. En quête permanente de vulnérabilités pour concevoir de meilleures murailles défensives.</p>
                     </div>
                 </div>
-                <h3>Portfolio Immersif</h3>
-                <p>Site web personnel interactif intégrant une esthétique sombre et technologique avec une pluie de gouttes en arrière-plan.</p>
-                <div class="project-tags">
-                    <span>HTML5</span>
-                    <span>CSS3</span>
-                    <span>JavaScript</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-header">
-                    <i class="fas fa-terminal"></i>
-                    <div class="project-links">
-                        <a href="https://www.linkedin.com/in/enzo-michel-miroungui-brandner-a1556a442/" target="_blank"><i class="fab fa-linkedin"></i></a>
-                    </div>
-                </div>
-                <h3>Projets d'Algorithmique</h3>
-                <p>Implémentation de structures de données et résolution de programmes logiques dans le cadre de ma formation à HESTIM.</p>
-                <div class="project-tags">
-                    <span>C / C++</span>
-                    <span>Algorithmique</span>
-                </div>
             </div>
         </div>
-    </section>
 
-    <section id="contact" class="section">
-        <h2 class="section-title">Me <span>Contacter</span></h2>
-        <div class="contact-container">
-            <div class="contact-info">
-                <p><i class="fas fa-envelope"></i> enzo.michel@hestim.ma</p>
-                <p><i class="fas fa-map-marker-alt"></i> Casablanca, Maroc - HESTIM</p>
-                <p><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/enzo-michel-miroungui-brandner-a1556a442/" target="_blank">Profil LinkedIn officiel</a></p>
+        <!-- Carte 2 : Éducation / Cursus -->
+        <div class="paper-card red-sheet draggable" id="card-edu">
+            <div class="card-controls">
+                <span class="card-heading-label">EDUCATION & CURSUS</span>
+                <button class="expand-toggle" aria-label="Agrandir la carte">🔍</button>
             </div>
+            <div class="card-heading">EDUCATION & CURSUS</div>
+            <div class="entry">
+                <span class="badge-year">2025 - PRÉSENT</span>
+                <h3>Hestim</h3>
+                <p>Cycle Ingénieur — Cybersécurité</p>
+            </div>
+            <div class="entry">
+                <span class="badge-year">EXPERTISE</span>
+                <h3>Systèmes & Hardware</h3>
+                <p>Linux / Windows / Réseaux</p>
+            </div>
+            <div class="long-text">
+                <hr style="margin: 10px 0; border-color: currentColor;">
+                <p>Formations approfondies sur l'architecture des systèmes d'information, les protocoles de routage sécurisés, la cryptographie et la gestion des incidents de sécurité au sein du campus Hestim.</p>
+            </div>
+            <div class="stamp-bottom">CONFIDENTIEL_</div>
+        </div>
 
-            <form class="contact-form" id="contactForm">
-                <input type="text" placeholder="Votre Nom" required>
-                <input type="email" placeholder="Votre Email" required>
-                <textarea placeholder="Votre Message" rows="5" required></textarea>
-                <button type="submit" class="btn primary">Envoyer le message</button>
+        <!-- Carte 3 : À Propos -->
+        <div class="paper-card white-sheet draggable" id="card-about">
+            <div class="card-controls">
+                <span class="card-heading-label">ABOUT ME //</span>
+                <button class="expand-toggle" aria-label="Agrandir la carte">🔍</button>
+            </div>
+            <div class="card-heading black-text">ABOUT ME //</div>
+            <p class="typewriter-text">
+                Étudiant ingénieur en cybersécurité à Hestim. Orienté vers la protection des infrastructures, la robustesse des systèmes et l'analyse des menaces. Rigueur, bilingue Français / Anglais technique.
+            </p>
+            <div class="long-text">
+                <p style="margin-top: 10px; font-family: 'Space Mono', monospace; font-size: 0.75rem;">
+                    Capacité démontrée à m'adapter rapidement aux nouveaux environnements technologiques. Veille technologique constante sur les nouvelles failles et méthodologies de pentest.
+                </p>
+            </div>
+            <div class="sign">ENZO.</div>
+        </div>
+
+        <!-- Carte 4 : Compétences -->
+        <div class="paper-card dark-sheet draggable" id="card-skills">
+            <div class="card-controls">
+                <span class="card-heading-label">SKILLS & LANGUES</span>
+                <button class="expand-toggle" aria-label="Agrandir la carte">🔍</button>
+            </div>
+            <div class="card-heading">SKILLS & LANGUES</div>
+            <ul class="brutal-list">
+                <li><span>[01]</span> Linux / Windows Admin</li>
+                <li><span>[02]</span> Hardware & Maintenance</li>
+                <li><span>[03]</span> Réseaux & Sécurité</li>
+                <li><span>[04]</span> Français (Parfait)</li>
+                <li><span>[05]</span> Anglais (Technique)</li>
+            </ul>
+            <div class="long-text">
+                <hr style="margin: 10px 0; border-color: rgba(255,255,255,0.3);">
+                <p>Compétences additionnelles : Analyse de logs, durcissement de serveurs, scripting de base pour l'automatisation des tâches de sécurité.</p>
+            </div>
+        </div>
+
+        <!-- Carte 5 : Contact -->
+        <div class="paper-card receipt draggable" id="card-contact">
+            <div class="card-controls">
+                <span class="receipt-top-label">--- TRANSMISSION SÉCURISÉE ---</span>
+                <button class="expand-toggle" aria-label="Agrandir la carte">🔍</button>
+            </div>
+            <form id="contactForm">
+                <input type="text" placeholder="NOM / SOCIÉTÉ" required>
+                <input type="email" placeholder="EMAIL" required>
+                <textarea placeholder="MESSAGE..." rows="2" required></textarea>
+                <button type="submit" class="submit-btn">TRANSMETTRE</button>
             </form>
+            <div id="formMessage" class="feedback">TRANSMISSION ENREGISTRÉE_</div>
         </div>
-    </section>
+
+    </main>
 
     <footer>
-        <p>&copy; <span id="year"></span> - Enzo Michel Miroungui Brandner • HESTIM Casablanca. Tous droits réservés.</p>
+        <p>HESTIM CYBERSECURITY // PORTFOLIO BRUTALISTE</p>
     </footer>
 
-    <script src="scipt.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
